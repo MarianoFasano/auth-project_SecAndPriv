@@ -1,0 +1,22 @@
+mysql table
+
+- nome
+- cognome
+- data di nascita
+- email
+- password --> criptata bcrypt
+- descrizione
+- foto ?
+- gruppo/ruolo --> admin/user/super-admin(?) --> è un varchar, tanto decidiamo noi
+- active --> true/false
+- data iscrizione (created_at, createdAt in Sequelize) --> è nella tabella della mail
+
+
+--> email di conferma per l'iscrizione (da fare in 10 minuti) => sistema per individuare email temporanee
+--> (re)captcha nel form di registrazione
+
+registrazione express --> post
+login express --> post/get? guardo dal progetto diploma
+
+Una volta effettuato il login l'utente deve effettuare un'azione per ottenere le informazioni che gli interessano basandosi sul token fornito dal backend
+grazie alla libreria jsonwebtoken

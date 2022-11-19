@@ -1,9 +1,17 @@
-// Imports
+/**
+ * Imports
+ */
+import React, { useState, useEffect, Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+// UseForm --> validation for react's form
 import { useForm } from 'react-hook-form';
+// YupResolver
 import { yupResolver } from '@hookform/resolvers/yup';
+// Yup --> validate schemas for react
 import * as yup from 'yup';
+// Axios --> make http calls
+import axios from 'axios';
 
 /**
  * Validation Schema
@@ -24,9 +32,14 @@ const schema = yup.object({
  */
 function Login(props) {
 
-  // Desctruct necessary in order to manage the inputs/forms validation
+  // Destruct necessary in order to manage the inputs/forms validation
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema)});
-  const onSubmit = data => console.log(data);
+  // onSubmit function call on the nodejs backend
+  const onSubmit = data => {
+    axios.get("/login").then(response => {
+      console.log(response.data);
+    })
+  };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
