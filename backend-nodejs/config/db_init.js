@@ -1,6 +1,6 @@
 // .env import
 require('dotenv').config();
-/* eslint-disable max-len */
+
 // Import 'sequelize' module
 const Sequelize = require('sequelize');
 

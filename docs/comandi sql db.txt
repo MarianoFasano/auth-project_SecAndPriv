@@ -1,0 +1,71 @@
+Creazione del DB:
+
+CREATE DATABASE authProject;
+USE authProject;
+CREATE USER 'authProject_user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON authProject.* TO 'authProject_user'@'localhost';
+
+Verifications table:
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+ 
+--
+-- Database: `my-node`
+--
+ 
+-- --------------------------------------------------------
+ 
+--
+-- Table structure for table `verifications`
+--
+ 
+CREATE TABLE `verifications` (
+  `id` int(11) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `token` varchar(250) DEFAULT NULL,
+  `verify` varchar(100) DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+--
+-- Indexes for dumped tables
+--
+ 
+--
+-- Indexes for table `verifications`
+--
+ALTER TABLE `verifications`
+  ADD PRIMARY KEY (`id`);
+ 
+--
+-- AUTO_INCREMENT for dumped tables
+--
+ 
+--
+-- AUTO_INCREMENT for table `verifications`
+--
+ALTER TABLE `verifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
+CREATE TABLE `users` (
+  `email` varchar(250) NOT NULL,
+  `name` varchar(250) NOT NULL,
+  `last_name` varchar(250) NOT NULL,
+  `password` varchar(250) NOT NULL,
+  `birthday` timestamp NOT NULL,
+  `description` varchar(2000),
+  `policy` varchar(20) NOT NULL,
+  `token` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ 
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`email`);
+ 
+ALTER TABLE `verifications`
+  ADD foreign key (`email`) references Users(`email`);
+COMMIT;
