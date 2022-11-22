@@ -91,10 +91,9 @@ function Registration(props) {
       {/** In this field the user selects his/her birthday */}   
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Select your birthday</Form.Label>
-        <DatePicker {...register("birthday")} type="birthday" selected={startDate} onChange={(date) => setStartDate(date)} />
+        {/** filterDate hides the futures dates */}
+        <DatePicker type="birthday" placeholderText='Select your birthday' filterDate={(date) => { return (new Date()) > date}} selected={startDate} onChange={(date) => setStartDate(date)} />
       </Form.Group>
-      {/** The 'error' message when the email's field is empty */}
-      <p style={{color:"red"}}>{errors.birthday?.message}</p>
 
       {/** In this field the user describes his/her-self */}  
       <Form.Group className="mb-3" controlId="formBasicPassword">

@@ -13,6 +13,8 @@ require('dotenv').config();
 const express = require('express');
 // Import body-parser
 const bodyParser = require('body-parser');
+// Import 'mysql' module
+const mysql = require('mysql2');
 // Import module for database
 const database = require('./config/db_init');
 // Start express app
