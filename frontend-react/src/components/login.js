@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 // Axios --> make http calls
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 /**
  * Validation Schema
@@ -69,8 +70,8 @@ function Login(props) {
       </Button>
       {/** This link redirects the user to the registration form
        */}
-      <Button variant="link" onClick={props.changeViewToRegister}>
-        New user? Register
+      <Button variant="link">
+        <Link to="/register">New user? Register</Link>        
       </Button>
     </Form>
   );

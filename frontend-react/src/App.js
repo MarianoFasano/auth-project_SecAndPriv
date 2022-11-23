@@ -4,6 +4,7 @@ import './App.css';
 import Login from './components/login';
 import Registration from './components/registration';
 import UserProfile from './components/userProfile';
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 /**
  * Main function
@@ -25,17 +26,22 @@ function App() {
 
   return (
     <>
-    <Container>
-      <Col>
-      </Col>
-      <Col>
-        { isLoginView && <Login changeViewToRegister={loginOrregisterView}/>}
-        { !isLoginView && <Registration changeViewToLogin={loginOrregisterView}/>}
-        < UserProfile></UserProfile>
-      </Col>
-      <Col>
-      </Col> 
-    </Container>
+      <Router>
+      <Container>
+        <Col>
+        </Col>
+        <Col>
+
+          <Routes>
+            <Route exact path="/" element={<Login />}></Route>
+            <Route exact path="/register" element={<Registration />}></Route>
+            <Route exact path="/user" element={<UserProfile/>}></Route>
+          </Routes>
+        </Col>
+        <Col>
+        </Col> 
+      </Container>
+    </Router>
     
     </>
   );

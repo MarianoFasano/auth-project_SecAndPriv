@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import DatePicker from "react-datepicker";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { Link } from 'react-router-dom';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -113,7 +114,7 @@ function Registration(props) {
       {/** This button cancels the registration and
        * sends the user to the login page
        */}
-      <Button variant="danger" type="button" onClick={props.changeViewToLogin}>
+      <Button variant="danger" type="button" href="/">
         Cancel
       </Button>
     </Form>
