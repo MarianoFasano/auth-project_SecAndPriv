@@ -3,6 +3,7 @@ import { Container, Col} from 'react-bootstrap';
 import './App.css';
 import Login from './components/login';
 import Registration from './components/registration';
+import UserProfile from './components/userProfile';
 
 /**
  * Main function
@@ -30,6 +31,7 @@ function App() {
       <Col>
         { isLoginView && <Login changeViewToRegister={loginOrregisterView}/>}
         { !isLoginView && <Registration changeViewToLogin={loginOrregisterView}/>}
+        < UserProfile></UserProfile>
       </Col>
       <Col>
       </Col> 
