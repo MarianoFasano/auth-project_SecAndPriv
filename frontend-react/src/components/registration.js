@@ -64,10 +64,11 @@ function Registration(props) {
     axios.post("/registration", userRegistration).then(response => {
       // Post correctely the new user
       if (response.status === 201) {
-        return <Navigate replace to = "/"/>
+        // Redirect to root route
+        window.location.href = '/';
       }
-      // HERE THE REDIRECTION IN GOOD CASE
-      console.log(response.data);
+      // Handle the error status
+      
     })
   };
 

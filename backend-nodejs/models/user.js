@@ -36,7 +36,7 @@ User.init({
   },
   birthday:
   {
-    type: 'TIMESTAMP', // timestamp
+    type: DataTypes.DATE, // datetime
   },
   description:
   {
@@ -50,16 +50,7 @@ User.init({
   {
       type: DataTypes.STRING(250), // VARCHAR(250)
   },
-  createdAt:
-  {
-    field: 'created_at', // Sequelize in camelCase, db in snake_case
-    type: 'TIMESTAMP', // timestamp
-  },
-  updateAt:
-  {
-    field: 'updated_at', // Sequelize in camelCase, db in snake_case
-    type: 'TIMESTAMP', // timestamp
-  },
+
 },
 {
   // Other model options go here

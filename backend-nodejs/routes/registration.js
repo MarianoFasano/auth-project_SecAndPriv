@@ -9,6 +9,8 @@ const router = express.Router();
  */
 // User import
 const User = require('../models/user');
+// Verification import
+const Verification = require('../models/verification');
 
 /**
  * Utilities import
@@ -42,6 +44,15 @@ router.post('/', async (req, res) => {
                 birthday: req.body.birthday,
                 description: req.body.description,
               },
+          );
+
+          // Fill the verifications table
+          const newVerification = await Verification.create(
+            {
+              email: req.body.email,
+              token: 'tokenExample',
+              verify: '0',
+            },
           );
           // Response
           res.status(201).json({message: 'Successfully created user'});
