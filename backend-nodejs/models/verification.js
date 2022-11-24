@@ -11,9 +11,9 @@ const sequelize = require('../config/db_init');
 // Imports for db relationships
 
 
-class User extends Model { }
+class Verification extends Model { }
 
-User.init({
+Verification.init({
   // Model attributes are defined here
   id:
   {

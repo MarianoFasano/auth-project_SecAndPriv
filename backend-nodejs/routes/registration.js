@@ -5,6 +5,12 @@ const express = require('express');
 const router = express.Router();
 
 /**
+ * Models import
+ */
+// User import
+const User = require('../models/user');
+
+/**
  * Utilities import
  */
 // Password generator
@@ -40,11 +46,10 @@ router.post('/', async (req, res) => {
           // Response
           res.status(201).json({message: 'Successfully created user'});
         }
-})
+});
 
 router.get('/', (req, res) => {
-  console.log(req.body);
-  res.json({message:"Hai raggiunto il get di registration nel backend"});
+  res.json({message:"Hai raggiunto il get di backend"});
 });
 
 // Exports

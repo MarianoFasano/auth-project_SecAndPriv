@@ -47,9 +47,19 @@ User.init({
     type: DataTypes.STRING(20), // ('Admin', 'Superadmin', 'User')
   },
   token:
-    {
-        type: DataTypes.STRING(250), // VARCHAR(250)
-    },
+  {
+      type: DataTypes.STRING(250), // VARCHAR(250)
+  },
+  createdAt:
+  {
+    field: 'created_at', // Sequelize in camelCase, db in snake_case
+    type: 'TIMESTAMP', // timestamp
+  },
+  updateAt:
+  {
+    field: 'updated_at', // Sequelize in camelCase, db in snake_case
+    type: 'TIMESTAMP', // timestamp
+  },
 },
 {
   // Other model options go here

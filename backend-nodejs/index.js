@@ -20,7 +20,7 @@ const database = require('./config/db_init');
 // Start express app
 const app = express();
 // Port number in the variable 'port'
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 /**
 * Cors import and configuration

@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 // Axios --> make http calls
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -39,24 +39,44 @@ import "react-datepicker/dist/react-datepicker.css";
  */
 function Registration(props) {
 
+  // Registration hooks
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
+  const [description, setDescription] = useState("");
+  // DatePicker hooks --> the default value is the currently date
+  const [startDate, setStartDate] = useState(new Date());
+
+  // Form data to send
+  const userRegistration = {
+    email: email,
+    name: name,
+    lastName: lastName,
+    password: password,
+    birthday: startDate,
+    description: description,
+  }
+
   // Desctruct necessary in order to manage the inputs/forms validation
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema)});
   const onSubmit = data => {
-    axios.get("/registration").then(response => {
+    axios.post("/registration", userRegistration).then(response => {
+      // Post correctely the new user
+      if (response.status === 201) {
+        return <Navigate replace to = "/"/>
+      }
       // HERE THE REDIRECTION IN GOOD CASE
       console.log(response.data);
     })
   };
-
-  // DatePicker hooks --> the default value is the currently date
-  const [startDate, setStartDate] = useState(new Date());
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} >
       {/** In this field the user inserts his/her email address */}  
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control {...register("email")} type="email" placeholder="Enter email" />
+        <Form.Control {...register("email")} type="email" placeholder="Enter email" onChange={(e) => setEmail(e.target.value)}/>
         <Form.Text className="text-muted">
           We'll never share your email with anyone else.
         </Form.Text>
@@ -69,7 +89,7 @@ function Registration(props) {
        */}  
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control {...register("password")} type="password" placeholder="Password" />
+        <Form.Control {...register("password")} type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
       </Form.Group>
       {/** The 'error' message when the email's field is empty */}
       <p style={{color:"red"}}>{errors.password?.message}</p>
@@ -85,7 +105,7 @@ function Registration(props) {
       {/** In this field the user writes his/her name */}  
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Name</Form.Label>
-        <Form.Control {...register("name")} type="name" placeholder="Name" />
+        <Form.Control {...register("name")} type="name" placeholder="Name" onChange={(e) => setName(e.target.value)}/>
       </Form.Group>
       {/** The 'error' message when the email's field is empty */}
       <p style={{color:"red"}}>{errors.name?.message}</p>
@@ -93,7 +113,7 @@ function Registration(props) {
       {/** In this field the user writes his/her last name */}  
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Last name</Form.Label>
-        <Form.Control {...register("lastName")} type="lastName" placeholder="Last name" />
+        <Form.Control {...register("lastName")} type="lastName" placeholder="Last name" onChange={(e) => setLastName(e.target.value)}/>
       </Form.Group>
       {/** The 'error' message when the email's field is empty */}
       <p style={{color:"red"}}>{errors.lastName?.message}</p>
@@ -108,7 +128,7 @@ function Registration(props) {
       {/** In this field the user describes his/her-self */}  
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Describe yourself</Form.Label>
-        <Form.Control {...register("description")} type="description" as="textarea" rows={3} />
+        <Form.Control {...register("description")} type="description" as="textarea" rows={3} onChange={(e) => setDescription(e.target.value)}/>
       </Form.Group>
       {/** The 'error' message when the email's field is empty */}
       <p style={{color:"red"}}>{errors.description?.message}</p>
