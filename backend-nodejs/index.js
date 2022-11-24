@@ -43,15 +43,19 @@ app.use(bodyParser.json());
 /**
  * Routes import
  */
-// Matchimage route
+// Login route
 const loginRouter = require('./routes/login');
+// Registration route
+const regRouter = require('./routes/registration');
 
 /*
   Routes use
 */
 
-// Actions route
+// Login route
 app.use('/login', loginRouter);
+// Registration route
+app.use('/registration', regRouter);
 
 // Check database connection
 try {

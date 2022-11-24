@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import DatePicker from "react-datepicker";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+// Axios --> make http calls
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -17,7 +19,9 @@ import "react-datepicker/dist/react-datepicker.css";
   // The email is required
   email: yup.string().email().required('Email is required to register'),
   // The password is required
-  password: yup.string().required('Password is required to register'),
+  password: yup.string().required('Password is required to register').min(3, 'Password have to be minimum 3 char long'),
+  // Password confirmation
+  confirmPassword: yup.string().required('Password is required to register').oneOf([yup.ref('password')], 'Password does not match'),
   // User name
   name: yup.string().required('Name is required to register'),
   // User last name
@@ -37,7 +41,12 @@ function Registration(props) {
 
   // Desctruct necessary in order to manage the inputs/forms validation
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema)});
-  const onSubmit = data => console.log(data);
+  const onSubmit = data => {
+    axios.get("/registration").then(response => {
+      // HERE THE REDIRECTION IN GOOD CASE
+      console.log(response.data);
+    })
+  };
 
   // DatePicker hooks --> the default value is the currently date
   const [startDate, setStartDate] = useState(new Date());
@@ -68,7 +77,7 @@ function Registration(props) {
       {/** In this field the user confirms his/her password */}  
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Confirm password</Form.Label>
-        <Form.Control {...register("confirmPassword")} type="confirmPassword" placeholder="Confirm password" />
+        <Form.Control {...register("confirmPassword")} type="password" placeholder="Confirm password" />
       </Form.Group>
       {/** The 'error' message when the email's field is empty */}
       <p style={{color:"red"}}>{errors.confirmPassword?.message}</p>

@@ -38,6 +38,7 @@ function Login(props) {
   // onSubmit function call on the nodejs backend
   const onSubmit = data => {
     axios.get("/login").then(response => {
+      // HERE THE REDIRECTION IN GOOD CASE
       console.log(response.data);
     })
   };

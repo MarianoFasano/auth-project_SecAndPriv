@@ -41,3 +41,11 @@ router.post('/', async (req, res) => {
           res.status(201).json({message: 'Successfully created user'});
         }
 })
+
+router.get('/', (req, res) => {
+  console.log(req.body);
+  res.json({message:"Hai raggiunto il get di registration nel backend"});
+});
+
+// Exports
+module.exports = router;
