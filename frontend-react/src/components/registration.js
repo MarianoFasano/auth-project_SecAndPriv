@@ -8,8 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 // Axios --> make http calls
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
-
 import "react-datepicker/dist/react-datepicker.css";
 
 /**
@@ -21,7 +19,7 @@ import "react-datepicker/dist/react-datepicker.css";
   // The password is required
   password: yup.string().required('Password is required to register').min(3, 'Password have to be minimum 3 char long'),
   // Password confirmation
-  confirmPassword: yup.string().required('Password is required to register').oneOf([yup.ref('password')], 'Password does not match'),
+  confirmPassword: yup.string().required('This field is required').oneOf([yup.ref('password')], 'Password does not match'),
   // User name
   name: yup.string().required('Name is required to register'),
   // User last name

@@ -10,12 +10,12 @@ require('dotenv').config();
  */
 const tokenGenerator = (user) => {
   // User id
-  const id = user.id;
+  const email = user.email;
   // Expiration time: 15m
   const expiresIn = '15m';
   // Payload
   const payload = {
-    sub: id,
+    sub: email,
     iat: Date.now(),
   };
 

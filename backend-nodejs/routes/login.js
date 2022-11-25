@@ -45,8 +45,9 @@ router.post('/', async (req, res) => {
     const userInCheck = await User.findOne({where: {email: email}});
 
     // The user does not exist - resource 'not found' 404
-    if (userInCheck != null) {
-      res.status(404).json({message: `A user with ${req.body.email} email address does not exist`});
+    if (userInCheck == null) {
+    console.log(userInCheck);
+      res.status(404).send({message: `A user with ${req.body.email} email address does not exist`});
     } 
             
     /**
@@ -56,8 +57,11 @@ router.post('/', async (req, res) => {
     const accountInCheck = await Verification.findOne({where: {email: req.body.email}});
 
     // The account is not verified, so verify state is '0' - user 'unathorized', 'unauthenticated' 401
-    if (accountInCheck.verify === '0'){
-      res.status(401).json({message: `Hello ${userInCheck.name}, we know you, but you have not verified your account. Please verify it by the mail we sent to you during your the registration and than attempt once again the login :) `});
+    if (accountInCheck.verify === '1'){
+      res.status(401).send({
+        message: `Hello ${userInCheck.name}, we know you, but you have not verified your account. Please verify it by the mail we sent to you during your the registration and than attempt once again the login :) `,
+        problem: 'verification',
+        });
     }
             
     /**
@@ -71,16 +75,18 @@ router.post('/', async (req, res) => {
         // Create token
         const token = tokenGenerator(userInCheck);
         // Response
-        res.status(200).json({
-            name: user.name,
-            id: user.id,
-            group: user.group,
+        res.status(200).send({
+            name: userInCheck.name,
             token: token.token,
             token_type: 'Bearer',
             expires_at: token.expiresIn,
+            message: `Hello ${userInCheck.name}, you logged in successfully`,
         });
     } else{
-        res.status(401).json({message: `Hello ${userInCheck.name}, we know you, but your password is incorrect`});
+        res.status(401).send({
+            message: `Hello ${userInCheck.name}, we know you, but your password is incorrect`,
+            problem: 'password',
+        })
     }
 });
 
