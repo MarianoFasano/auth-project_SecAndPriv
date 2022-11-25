@@ -3,7 +3,6 @@ const jsonwebtoken = require('jsonwebtoken');
 // .env import
 require('dotenv').config();
 
-// eslint-disable-next-line valid-jsdoc
 /**
  * Token generator function
  * @param {*} user
@@ -12,8 +11,8 @@ require('dotenv').config();
 const tokenGenerator = (user) => {
   // User id
   const id = user.id;
-  // Expiration time: 1w
-  const expiresIn = '1w';
+  // Expiration time: 15m
+  const expiresIn = '15m';
   // Payload
   const payload = {
     sub: id,

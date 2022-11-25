@@ -1,6 +1,7 @@
 /**
  * Registration route
  */
+// Router - is a little express app
 const express = require('express');
 const router = express.Router();
 
@@ -22,7 +23,7 @@ const passwordGenerator = require('../utilities/passwordGenerator');
  * Create new user
  */
 router.post('/', async (req, res) => {
-        // Check if the user already exist
+        // Check if the user already exists
         const oldUser = await User.findOne({where: {email: req.body.email}});
 
         if (oldUser != null) {
