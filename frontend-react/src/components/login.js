@@ -34,6 +34,14 @@ const schema = yup.object({
  */
 function Login(props) {
 
+  // Functions
+  function setMessage(message) {
+    props.setMessage(message);
+  };
+  function setProblem(problem){
+    props.setProblem(problem);
+  };
+
   // Registration hooks
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,19 +55,35 @@ function Login(props) {
   // Destruct necessary in order to manage the inputs/forms validation
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema)});
   // onSubmit function call on the nodejs backend
-  const onSubmit = data => {
-    axios.post("/login", userLogin)
-    .then(response => {
-      console.log(response.data);
+  const onSubmit = async (data) => {
+    await axios.post("/login", userLogin)
+    .then((response) => {
       // HERE THE REDIRECTION IN GOOD CASE
       if (response.status === 200){
-        return <Message message={response.data.message}/>;
-      } else if(response.response.data.status === 401 && response.data.problem === 'verification'){
-        return <Message message={response.data.message} problem={response.data.problem}/>
-      } else if (response.status === 401){
-        alert(response.data.message);
+        // Set the messages to the user
+        setMessage(response.data.message);
+        setProblem(response.data.problem);
+        // Redirect to the welcome page
+        window.location.href = '/welcome';
       }
     })
+    .catch((error) =>{
+      console.log(error.response.data.message);
+      // Response variable
+      const res = error.response;
+      if(res.status === 401 && res.data.problem === 'verification'){
+        // Set the messages to the user
+        setMessage(res.data.message);
+        setProblem(res.data.problem);
+        console.log(res.data.message);
+        // Redirect to the welcome page
+        window.location.href = '/welcome';
+      } else if (res.status === 401){
+        alert(res.data.message);
+      } else if(res.status === 404){
+        alert(res.data.message); 
+      }
+    });
   };
 
   return (

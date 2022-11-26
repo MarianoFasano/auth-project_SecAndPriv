@@ -60,9 +60,5 @@ router.post('/', async (req, res) => {
         }
 });
 
-router.get('/', (req, res) => {
-  res.json({message:"Hai raggiunto il get di backend"});
-});
-
 // Exports
 module.exports = router;
