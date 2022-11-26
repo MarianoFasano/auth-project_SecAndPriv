@@ -13,7 +13,8 @@ import Registration from './components/registration';
 // UserProfile component
 import UserProfile from './components/userProfile';
 // Message component
-import Message from './components/message';
+import VerifyMessage from './components/verifyMessage';
+import WelcomeMessage from './components/welcomeMessage';
 
 /**
  * Main function
@@ -31,7 +32,7 @@ function App() {
    * true  --> user login
    * false --> user not login
    */
-  const [isUserLogged, setisUserLogged] = useState(false);
+  const [isUserLogged, setIsUserLogged] = useState(false);
   /**
    * 
    */
@@ -46,7 +47,7 @@ function App() {
    * false --> register form
    */
   function changeUserLogStatus() {
-    setisUserLogged(isUserLogged => !isUserLogged);
+    setIsUserLogged(isUserLogged => !isUserLogged);
   };
   /**
    * Function to set the message to show to the user
@@ -69,10 +70,11 @@ function App() {
         <Col>
 
           <Routes>
-            <Route exact path="/" element={<Login setMessage={setMessage} setProblem={setProblem}/>}></Route>
+            <Route exact path="/" element={<Login setMessage={setMessageToUser} setProblem={setProblemOccured}/>}></Route>
             <Route exact path="/register" element={<Registration />}></Route>
             <Route exact path="/user" element={<UserProfile/>}></Route>
-            <Route exact path="/welcome" element={<Message message={messageToUser} problem={problemOccured}/>}></Route>
+            <Route exact path="/welcome" element={<WelcomeMessage />}></Route>
+            <Route exact path="/not-verify" element={<VerifyMessage />}></Route>
           </Routes>
         </Col>
         <Col>

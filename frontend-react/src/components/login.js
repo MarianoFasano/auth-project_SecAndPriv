@@ -13,7 +13,7 @@ import * as yup from 'yup';
 // Axios --> make http calls
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Message from './message';
+import Message from './welcomeMessage';
 
 /**
  * Validation Schema
@@ -34,14 +34,6 @@ const schema = yup.object({
  */
 function Login(props) {
 
-  // Functions
-  function setMessage(message) {
-    props.setMessage(message);
-  };
-  function setProblem(problem){
-    props.setProblem(problem);
-  };
-
   // Registration hooks
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,14 +47,11 @@ function Login(props) {
   // Destruct necessary in order to manage the inputs/forms validation
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema)});
   // onSubmit function call on the nodejs backend
-  const onSubmit = async (data) => {
-    await axios.post("/login", userLogin)
+  const onSubmit = (data) => {
+    axios.post("/login", userLogin)
     .then((response) => {
       // HERE THE REDIRECTION IN GOOD CASE
       if (response.status === 200){
-        // Set the messages to the user
-        setMessage(response.data.message);
-        setProblem(response.data.problem);
         // Redirect to the welcome page
         window.location.href = '/welcome';
       }
@@ -72,12 +61,8 @@ function Login(props) {
       // Response variable
       const res = error.response;
       if(res.status === 401 && res.data.problem === 'verification'){
-        // Set the messages to the user
-        setMessage(res.data.message);
-        setProblem(res.data.problem);
-        console.log(res.data.message);
         // Redirect to the welcome page
-        window.location.href = '/welcome';
+        window.location.href = '/not-verify';
       } else if (res.status === 401){
         alert(res.data.message);
       } else if(res.status === 404){
@@ -114,8 +99,8 @@ function Login(props) {
       </Button>
       {/** This link redirects the user to the registration form
        */}
-      <Button variant="link">
-        <Link to="/register">New user? Register</Link>        
+      <Button variant="link" href="/register">
+        New user? Register       
       </Button>
     </Form>
   );

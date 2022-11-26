@@ -47,15 +47,19 @@ app.use(bodyParser.json());
 const loginRouter = require('./routes/login');
 // Registration route
 const regRouter = require('./routes/registration');
+// Verify mail route
+const verifyMailRouter = require('./routes/verifymail');
 
 /*
   Routes use
 */
 
-// Login route
+// Use login route
 app.use('/login', loginRouter);
-// Registration route
+// Use registration route
 app.use('/registration', regRouter);
+// Use verifymail route
+app.use('/verifymail', verifyMailRouter);
 
 // Check database connection
 try {

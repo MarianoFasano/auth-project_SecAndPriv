@@ -8,11 +8,10 @@ require('dotenv').config();
  * @param {*} user
  * @returns
  */
-const tokenGenerator = (user) => {
+const mailTokenGenerator = (user) => {
   // User id
   const email = user.email;
-  // Expiration time: 15m
-  const expiresIn = '15m';
+
   // Payload
   const payload = {
     sub: email,
@@ -20,13 +19,12 @@ const tokenGenerator = (user) => {
   };
 
   // Create the token
-  const signedToken = jsonwebtoken.sign(payload, process.env.ACCESS_TOKEN_SECRET, {expiresIn: expiresIn});
+  const signedToken = jsonwebtoken.sign(payload, process.env.MAIL_TOKEN_SECRET);
   // Return
   return {
     token: signedToken,
-    expiresIn: expiresIn,
   };
 };
 
 // Function export
-module.exports = tokenGenerator;
+module.exports = mailTokenGenerator;

@@ -1,4 +1,24 @@
 /**
+ * Libraries import
+ */
+// .env import
+require('dotenv').config();
+// Nodemailer
+const nodemailer = require('nodemailer');
+// Nodemailer configuration
+const transporter = nodemailer.createTransport({
+  host: process.env.MAIL_HOST,
+  port: process.env.MAIL_PORT,
+  auth: {
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_USER_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
+  }
+});
+
+/**
  * Registration route
  */
 // Router - is a little express app
@@ -12,6 +32,7 @@ const router = express.Router();
 const User = require('../models/user');
 // Verification import
 const Verification = require('../models/verification');
+const mailTokenGenerator = require('../utilities/mailTokenGenerator');
 
 /**
  * Utilities import
@@ -47,14 +68,35 @@ router.post('/', async (req, res) => {
               },
           );
 
+          // Token for email
+          const mailToken = mailTokenGenerator(newUser);
+
           // Fill the verifications table
           const newVerification = await Verification.create(
             {
               email: req.body.email,
-              token: 'tokenExample',
+              token: mailToken.token,
               verify: '0',
             },
           );
+
+
+          // Send the mail
+          const url = `http://localhost:5000/verifymail/${mailToken.token}`;
+          const mailOptions = {
+            from: process.env.MAIL_USER,
+            to: req.body.email,
+            subject: 'Verify your account',
+            html: `Please click this email to verify your account: <a href="${url}">${url}</a>`,
+          }
+
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log('Error:' + error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
           // Response
           res.status(201).json({message: 'Successfully created user'});
         }
