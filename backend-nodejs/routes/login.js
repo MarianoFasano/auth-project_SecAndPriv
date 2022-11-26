@@ -47,7 +47,10 @@ router.post('/', async (req, res) => {
     // The user does not exist - resource 'not found' 404
     if (userInCheck == null) {
     console.log(userInCheck);
-      res.status(404).send({message: `A user with ${req.body.email} email address does not exist`});
+      res.status(404).send({
+        message: `A user with ${req.body.email} email address does not exist`,
+        problem: 'user does not exist',
+    });
     } 
             
     /**
@@ -81,6 +84,7 @@ router.post('/', async (req, res) => {
             token_type: 'Bearer',
             expires_at: token.expiresIn,
             message: `Hello ${userInCheck.name}, you logged in successfully`,
+            problem: '',
         });
     } else{
         res.status(401).send({

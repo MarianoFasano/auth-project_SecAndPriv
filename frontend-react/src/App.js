@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Col} from 'react-bootstrap';
 import './App.css';
-import Login from './components/login';
-import Registration from './components/registration';
-import UserProfile from './components/userProfile';
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+
+/**
+ * Components
+ */
+// Login component
+import Login from './components/login';
+// Registration component
+import Registration from './components/registration';
+// UserProfile component
+import UserProfile from './components/userProfile';
+// Message component
+import Message from './components/message';
 
 /**
  * Main function
@@ -19,10 +28,10 @@ function App() {
   
   /**
    * This hook tells the system which view show to the user
-   * true  --> login form
-   * false --> register form
+   * true  --> user login
+   * false --> user not login
    */
-  const [isLoginView, setLoginRegisterView] = useState(true);
+  const [isUserLogged, setisUserLogged] = useState(false);
 
   return (
     <>
@@ -36,6 +45,7 @@ function App() {
             <Route exact path="/" element={<Login />}></Route>
             <Route exact path="/register" element={<Registration />}></Route>
             <Route exact path="/user" element={<UserProfile/>}></Route>
+            <Route exact path="/welcome" element={<Message/>}></Route>
           </Routes>
         </Col>
         <Col>
@@ -51,8 +61,8 @@ function App() {
    * true  --> login form
    * false --> register form
    */
-  function loginOrregisterView() {
-    setLoginRegisterView(isLoginView => !isLoginView);
+  function changeUserLogStatus() {
+    setisUserLogged(isUserLogged => !isUserLogged);
   }
 }
 
