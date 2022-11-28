@@ -5,18 +5,7 @@
 require('dotenv').config();
 // Nodemailer
 const nodemailer = require('nodemailer');
-// Nodemailer configuration
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: process.env.MAIL_PORT,
-  auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_USER_PASS
-  },
-  tls: {
-    rejectUnauthorized: false
-  }
-});
+
 
 /**
  * Registration route
@@ -80,6 +69,20 @@ router.post('/', async (req, res) => {
             },
           );
 
+          // Nodemailer configuration
+          const transporter = nodemailer.createTransport({
+            host: process.env.MAIL_HOST,
+            /*port: process.env.MAIL_PORT,
+            secure: process.env.MAIL_SECURE,*/
+            auth: {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_USER_PASS,
+            },
+            /*tls: {
+              rejectUnauthorized: false,
+              secureProtocol: "TLSv1_method",
+            }*/
+          });
 
           // Send the mail
           const url = `http://localhost:5000/verifymail/${mailToken.token}`;
@@ -92,7 +95,7 @@ router.post('/', async (req, res) => {
 
           transporter.sendMail(mailOptions, function(error, info){
             if (error) {
-              console.log('Error:' + error);
+              console.log('Error:' + error.message);
             } else {
               console.log('Email sent: ' + info.response);
             }
