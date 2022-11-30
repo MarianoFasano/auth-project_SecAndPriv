@@ -12,6 +12,7 @@
   "dependencies": {
     "@ory/cli": "^0.1.48",
     "@ory/client": "^0.2.0-alpha.60",
+    "axios": "^1.2.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",

@@ -5,7 +5,8 @@
 require('dotenv').config();
 // Nodemailer
 const nodemailer = require('nodemailer');
-
+// Axios
+const axios = require('axios');
 
 /**
  * Registration route
@@ -37,12 +38,32 @@ router.post('/', async (req, res) => {
         const oldUser = await User.findOne({where: {email: req.body.email}});
 
         if (oldUser != null) {
-          res.status(400).json({message: `A user with ${req.body.email} email address already exists`});
+          res.status(400).send({message: `A user with ${req.body.email} email address already exists`});
         } else {
-        // If doesn't exist, create it
-        /**
-         * Password
-         */
+          const { token } = req.body;
+          // Recatpcha verification
+          /*
+          try{
+            const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${token}`;
+            const response = await axios.post(verifyURL, {});
+            const { success } = response.data;
+            console.log(response)
+            if(!success){
+              return res.status(400).send({
+                error: "Invalid Captcha. Try again."
+              });
+            }
+          } catch(e){
+            console.log(e);
+            return res.status(400).send({
+              error: 'reCaptcha error: check the Captcha!'
+            });
+          }*/
+
+          // If doesn't exist, create it
+          /**
+          * Password
+          */
           const hashedPassword = await passwordGenerator(req.body.password);
           // Create User
           const newUser = await User.create(

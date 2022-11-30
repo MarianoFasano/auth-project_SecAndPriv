@@ -1,6 +1,8 @@
 /**
  ** Login route
 */
+// .env import
+require('dotenv').config();
 // Router - is a little express app
 const express = require('express');
 const router = express.Router();
@@ -68,7 +70,7 @@ router.post('/', async (req, res) => {
         console.log(password);
         console.log(userInCheck.password);
         // The account is not verified, so verify state is '0' - user 'unathorized', 'unauthenticated' 401
-        if (accountInCheck.verify === '0'){
+        if (accountInCheck.verify === process.env.VERIFY_TEST){
             return res.status(401).send({
             message: `Hello ${userInCheck.name}, we know you, but you have not verified your account. Please verify it by the mail we sent to you during your the registration and than attempt once again the login :) `,
             problem: 'verification',

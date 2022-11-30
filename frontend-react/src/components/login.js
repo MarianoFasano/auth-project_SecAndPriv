@@ -57,7 +57,6 @@ function Login(props) {
       }
     })
     .catch((error) =>{
-      console.log(error.response.data.message);
       // Response variable
       const res = error.response;
       if(res.status === 401 && res.data.problem === 'verification'){

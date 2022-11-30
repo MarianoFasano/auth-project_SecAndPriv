@@ -1,5 +1,5 @@
 // Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 // Axios --> make http calls
 import axios from 'axios';
+import ReCAPTCHA from "react-google-recaptcha";
 import "react-datepicker/dist/react-datepicker.css";
 
 /**
@@ -28,6 +29,7 @@ import "react-datepicker/dist/react-datepicker.css";
   description: yup.string(),
 }).required();
 
+
 /**
  * Component declaration
  * 
@@ -36,7 +38,7 @@ import "react-datepicker/dist/react-datepicker.css";
  * @returns 
  */
 function Registration(props) {
-
+  const reCaptcha = useRef();
   // Registration hooks
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -45,21 +47,30 @@ function Registration(props) {
   const [description, setDescription] = useState("");
   // DatePicker hooks --> the default value is the currently date
   const [startDate, setStartDate] = useState(new Date());
+  const [token, setToken] = useState("");
 
-  // Form data to send
-  const userRegistration = {
-    email: email,
-    name: name,
-    lastName: lastName,
-    password: password,
-    birthday: startDate,
-    description: description,
-  }
 
-  // Desctruct necessary in order to manage the inputs/forms validation
+  // Destruct necessary in order to manage the inputs/forms validation
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema)});
-  const onSubmit = data => {
-    axios.post("/registration", userRegistration).then(response => {
+
+  const onSubmit = (data) => {
+    //
+    //const token = reCaptcha.current.getValue();
+    reCaptcha.current.reset();
+
+    // Form data to send
+    const userRegistration = {
+      email: email,
+      name: name,
+      lastName: lastName,
+      password: password,
+      birthday: startDate,
+      description: description,
+      token: token,
+    }
+    
+    axios.post("/registration", userRegistration)
+    .then(response => {
       // Post correctely the new user
       if (response.status === 201) {
         // Redirect to root route
@@ -68,6 +79,18 @@ function Registration(props) {
       // Handle the error status
       
     })
+    .catch((error) =>{
+      // Print into the console and on window the error
+      //console.log(error.response);
+      alert(error.response.data.error);
+    })
+    .finally(() => {
+      setToken('');
+    })
+  };
+  // Recaptcha on change handle function
+  function onChange(value) {
+    setToken(value);
   };
 
   return (
@@ -131,6 +154,16 @@ function Registration(props) {
       </Form.Group>
       {/** The 'error' message when the email's field is empty */}
       <p style={{color:"red"}}>{errors.description?.message}</p>
+
+      {/**
+       * Here the recaptcha, I'm not a robot
+       */}
+       <ReCAPTCHA
+        ref={reCaptcha}
+        sitekey='6LdzkEMjAAAAAKstRv5rbbkTGOJKPFkq-0Sw0wG7'
+        onChange={onChange}
+        onExpired={e => setToken('')}
+        ></ReCAPTCHA>
 
       {/**
        * This button confirms the new user's informations

@@ -35,10 +35,11 @@ const corsOptions = {
 // Use of cors
 app.use(cors(corsOptions));
 // Use of bodyParser
-// Parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({extended: false}));
 // Parse application/json
 app.use(bodyParser.json());
+// Parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 /**
  * Routes import

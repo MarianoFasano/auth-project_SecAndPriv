@@ -1,0 +1,16 @@
+Etichetta recaptcha
+Auth-project
+
+Tipo
+reCAPTCHA v2, non sono uno robot
+
+Domini
+locahost
+127.0.0.1
+
+Chiavi
+sito
+6LdzkEMjAAAAAKstRv5rbbkTGOJKPFkq-0Sw0wG7
+
+segreta
+6LdzkEMjAAAAALwiJYJS083hmlSQADj85GVSOJSz
