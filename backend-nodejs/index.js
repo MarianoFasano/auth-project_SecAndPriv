@@ -46,10 +46,14 @@ app.use(bodyParser.urlencoded({extended: true}));
  */
 // Login route
 const loginRouter = require('./routes/login');
+// Logout route
+const logoutRouter = require('./routes/logout');
 // Registration route
 const regRouter = require('./routes/registration');
 // Verify mail route
 const verifyMailRouter = require('./routes/verifymail');
+// User data 'manager'
+const userRouter = require('./routes/user');
 
 /*
   Routes use
@@ -57,10 +61,14 @@ const verifyMailRouter = require('./routes/verifymail');
 
 // Use login route
 app.use('/login', loginRouter);
+// Use login route
+app.use('/logout', logoutRouter);
 // Use registration route
 app.use('/registration', regRouter);
 // Use verifymail route
 app.use('/verifymail', verifyMailRouter);
+// Use user route
+app.use('/user', userRouter);
 
 // Check database connection
 try {

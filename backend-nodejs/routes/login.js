@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
      * User check
      */
     // Check if the user exists
-    const userInCheck = await User.findOne({where: {email: email}});
+    const userInCheck = await User.findOne({where: {email: req.body.email}});
 
     // The user does not exist - resource 'not found' 404
     if (userInCheck == null) {
@@ -67,8 +67,6 @@ router.post('/', async (req, res) => {
             
     // Check the password
     if (await bcrypt.compare(password, userInCheck.password)){
-        console.log(password);
-        console.log(userInCheck.password);
         // The account is not verified, so verify state is '0' - user 'unathorized', 'unauthenticated' 401
         if (accountInCheck.verify === process.env.VERIFY_TEST){
             return res.status(401).send({
@@ -80,7 +78,7 @@ router.post('/', async (req, res) => {
             // Create token
             const token = tokenGenerator(userInCheck);
             // Response
-            return res.status(200).send({
+            return res.status(200).json({
                 name: userInCheck.name,
                 token: token.token,
                 token_type: 'Bearer',

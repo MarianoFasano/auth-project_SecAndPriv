@@ -75,9 +75,7 @@ function Registration(props) {
       if (response.status === 201) {
         // Redirect to root route
         window.location.href = '/';
-      }
-      // Handle the error status
-      
+      }     
     })
     .catch((error) =>{
       // Print into the console and on window the error

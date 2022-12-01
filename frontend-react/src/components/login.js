@@ -12,8 +12,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 // Axios --> make http calls
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Message from './welcomeMessage';
 
 /**
  * Validation Schema
@@ -52,6 +50,8 @@ function Login(props) {
     .then((response) => {
       // HERE THE REDIRECTION IN GOOD CASE
       if (response.status === 200){
+        // Store user details and jwt in the local storage
+        localStorage.setItem('currentUser', JSON.stringify(response.data));
         // Redirect to the welcome page
         window.location.href = '/welcome';
       }
