@@ -30,7 +30,17 @@ const schema = yup.object({
  * password to log in the user
  * @returns 
  */
-function Login(props) {
+function Login() {
+
+  // UseEffects to check if the user is already logged in
+  useEffect(() => {
+    // Get the user info stored in the browser
+    const items = JSON.parse(localStorage.getItem('currentUser'));
+     if (items != null){
+      // If there are informations stored in the browser redirect to the welcome page, user already logged in
+      return window.location.href = '/welcome';
+     }
+  }, []);
 
   // Registration hooks
   const [email, setEmail] = useState("");

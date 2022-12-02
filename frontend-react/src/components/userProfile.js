@@ -25,10 +25,15 @@ const [description, setDescription] = useState('');
 // UseEffect to get the data from backend
 useEffect(() => {
   const items = JSON.parse(localStorage.getItem('currentUser'));
+  if (items == null){
+    // If there are no information stored in the browser redirect to the login page
+    return window.location.href = '/';
+   }
   axios.get('/user', { headers: {"Authorization" : `${items.token_type} ${items.token}`} })
   .then(response => {
     // Get the user from the response
     const user = response.data.user;
+    //const b_day = user.birthday.toISOString().split('T')[0];
     /**
      * Set the user data
      */
@@ -38,7 +43,7 @@ useEffect(() => {
     setLastName(user.lastName);
     // Email
     setEmail(user.email);
-    // Birthday
+    // Birthday    
     setBirthday(user.birthday);
     // Description
     setDescription(user.description);
@@ -96,7 +101,7 @@ function logout() {
           <Card.Text>
             {description}
           </Card.Text>
-          <Card.Link href="#">Modify</Card.Link>
+          {/**<Card.Link href="#">Modify</Card.Link>*/}
         </Card.Body>
       </Card>
       <Button variant="primary" onClick={logout}>

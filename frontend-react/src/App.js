@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Col} from 'react-bootstrap';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 
 /**
  * Components
@@ -27,40 +27,6 @@ function App() {
 
   // Variables e Hooks
   
-  /**
-   * This hook tells the system which view show to the user
-   * true  --> user login
-   * false --> user not login
-   */
-  const [isUserLogged, setIsUserLogged] = useState(false);
-  /**
-   * 
-   */
-  const [messageToUser, setMessageToUser] = useState("");
-  /**
-   * 
-   */
-  const [problemOccured, setProblemOccured] = useState("");
-  /**
-   * Function that change the value of 'isLoginView'
-   * true  --> login form
-   * false --> register form
-   */
-  function changeUserLogStatus() {
-    setIsUserLogged(isUserLogged => !isUserLogged);
-  };
-  /**
-   * Function to set the message to show to the user
-   */
-  const setMessage = (messageText) => {
-    setMessageToUser(messageText);
-  };
-  /**
-   * Function to set the problem, if there is one
-   */
-  const setProblem = (problemText) => {
-    setProblemOccured(problemText);
-  }
   return (
     <>
       <Router>
@@ -70,11 +36,12 @@ function App() {
         <Col>
 
           <Routes>
-            <Route exact path="/" element={<Login setMessage={setMessageToUser} setProblem={setProblemOccured}/>}></Route>
+            <Route exact path="/" element={<Login />}></Route>
             <Route exact path="/register" element={<Registration />}></Route>
             <Route exact path="/user" element={<UserProfile/>}></Route>
             <Route exact path="/welcome" element={<WelcomeMessage />}></Route>
             <Route exact path="/not-verify" element={<VerifyMessage />}></Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Col>
         <Col>

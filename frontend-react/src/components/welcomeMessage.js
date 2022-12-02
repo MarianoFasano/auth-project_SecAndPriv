@@ -4,9 +4,20 @@
  * @param {*} props 
  * @returns 
  */
+ import {  useEffect } from 'react';
  import Button from 'react-bootstrap/Button';
 
 function WelcomeMessage() {
+
+  // UseEffects to check if the user is not logged in
+  useEffect(() => {
+    // Get the user info stored in the browser
+    const items = JSON.parse(localStorage.getItem('currentUser'));
+     if (items == null){
+      // If there are no informations stored in the browser redirect to the login page, user is not logged in
+      return window.location.href = '/';
+     }
+  }, []);
 
     /**
      * Variables
