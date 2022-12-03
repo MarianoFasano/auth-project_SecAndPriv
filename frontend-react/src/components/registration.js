@@ -80,7 +80,7 @@ function Registration(props) {
     .catch((error) =>{
       // Print into the console and on window the error
       //console.log(error.response);
-      alert(error.response.data.error);
+      alert(error.response.data.message);
     })
     .finally(() => {
       setToken('');
@@ -156,13 +156,12 @@ function Registration(props) {
       {/**
        * Here the recaptcha, I'm not a robot
        */}
-       <ReCAPTCHA
-        ref={reCaptcha}
-        sitekey='6LdzkEMjAAAAAKstRv5rbbkTGOJKPFkq-0Sw0wG7'
-        onChange={onChange}
-        onExpired={e => setToken('')}
-        ></ReCAPTCHA>
-
+      <ReCAPTCHA
+          ref={reCaptcha}
+          sitekey='6LdzkEMjAAAAAKstRv5rbbkTGOJKPFkq-0Sw0wG7'
+          onChange={onChange}
+          onExpired={e => setToken('')}
+      ></ReCAPTCHA>
       {/**
        * This button confirms the new user's informations
        * and sends the data to the backend for the db registration
@@ -182,3 +181,5 @@ function Registration(props) {
 
 // Export the component
 export default Registration;
+/*
+*/

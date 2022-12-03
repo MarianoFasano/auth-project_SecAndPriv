@@ -1,19 +1,21 @@
-/**
- * Libraries import
- */
 // .env import
 require('dotenv').config();
-// Nodemailer
-const nodemailer = require('nodemailer');
-// Axios
-const axios = require('axios');
-
 /**
  * Registration route
  */
 // Router - is a little express app
 const express = require('express');
 const router = express.Router();
+/**
+ * Libraries import
+ */
+
+// Nodemailer
+const nodemailer = require('nodemailer');
+// Axios
+const axios = require('axios');
+// Nodejs-fetch
+const fetch = require('node-fetch');
 
 /**
  * Models import
@@ -40,26 +42,21 @@ router.post('/', async (req, res) => {
         if (oldUser != null) {
           res.status(400).send({message: `A user with ${req.body.email} email address already exists`});
         } else {
+
           const { token } = req.body;
           // Recatpcha verification
-          /*
-          try{
-            const verifyURL = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${token}`;
-            const response = await axios.post(verifyURL, {});
-            const { success } = response.data;
-            console.log(response)
-            if(!success){
-              return res.status(400).send({
-                error: "Invalid Captcha. Try again."
-              });
-            }
-          } catch(e){
-            console.log(e);
-            return res.status(400).send({
-              error: 'reCaptcha error: check the Captcha!'
-            });
-          }*/
+          const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${token}`, {
+            method: 'post',
+          });
+          const data = await response.json();
+          const success = data.success;
+          console.log(data);
 
+          if(!success){
+            return res.status(400).send({
+              message: "Invalid Captcha. Try again."
+            });
+          };
           // If doesn't exist, create it
           /**
           * Password
@@ -93,16 +90,12 @@ router.post('/', async (req, res) => {
           // Nodemailer configuration
           const transporter = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
-            /*port: process.env.MAIL_PORT,
-            secure: process.env.MAIL_SECURE,*/
+
             auth: {
                 user: process.env.MAIL_USER,
                 pass: process.env.MAIL_USER_PASS,
             },
-            /*tls: {
-              rejectUnauthorized: false,
-              secureProtocol: "TLSv1_method",
-            }*/
+
           });
 
           // Send the mail
@@ -111,7 +104,7 @@ router.post('/', async (req, res) => {
             from: process.env.MAIL_USER,
             to: req.body.email,
             subject: 'Verify your account',
-            html: `Please click this email to verify your account: <a href="${url}">${url}</a>`,
+            html: `<a href="${url}">${url}</a>`,
           }
 
           transporter.sendMail(mailOptions, function(error, info){
