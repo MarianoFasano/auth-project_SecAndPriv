@@ -34,7 +34,7 @@ router.get('/', authMiddleware, async (req, res) => {
     /**
      * Token verification
      */
-     console.log(req.headers);
+
     // Authorization header
     const authHeader = req.headers['authorization'];
     // Get the token if exist the auth header, the token is the second part of auth header

@@ -104,7 +104,7 @@ router.post('/', async (req, res) => {
             from: process.env.MAIL_USER,
             to: req.body.email,
             subject: 'Verify your account',
-            html: `<a href="${url}">${url}</a>`,
+            html: `<a href="${url}">Verify your account</a>`,
           }
 
           transporter.sendMail(mailOptions, function(error, info){

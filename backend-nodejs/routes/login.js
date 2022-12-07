@@ -68,7 +68,7 @@ router.post('/', async (req, res) => {
     // Check the password
     if (await bcrypt.compare(password, userInCheck.password)){
         // The account is not verified, so verify state is '0' - user 'unathorized', 'unauthenticated' 401
-        if (accountInCheck.verify === process.env.VERIFY_TEST){
+        if (accountInCheck.verify === process.env.VERIFY_PROD){
             return res.status(401).send({
             message: `Hello ${userInCheck.name}, we know you, but you have not verified your account. Please verify it by the mail we sent to you during your the registration and than attempt once again the login :) `,
             problem: 'verification',

@@ -9,7 +9,7 @@ module.exports = async (request, response, next) => {
 
     //check if the token matches the supposed origin
     const decodedToken = await jsonwebtoken.verify(token, process.env.ACCESS_TOKEN_SECRET);
-console.log(decodedToken);
+
     // retrieve the user details of the logged in user
     const user = await decodedToken;
 
