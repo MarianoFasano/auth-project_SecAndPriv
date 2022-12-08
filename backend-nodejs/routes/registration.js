@@ -72,6 +72,9 @@ router.post('/',
           * Password
           */
           const hashedPassword = await passwordGenerator(req.body.password);
+          // Handle date gap
+          let b_day = new Date(req.body.birthday);
+          b_day.setDate(b_day.getDate() + 1);
           // Create User
           const newUser = await User.create(
               {
@@ -80,7 +83,7 @@ router.post('/',
                 name: req.body.name,
                 lastName: req.body.lastName,                
                 password: hashedPassword,
-                birthday: req.body.birthday,
+                birthday: b_day,
                 description: req.body.description,
               },
           );
