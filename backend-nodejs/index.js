@@ -54,6 +54,7 @@ const regRouter = require('./routes/registration');
 const verifyMailRouter = require('./routes/verifymail');
 // User data 'manager'
 const userRouter = require('./routes/user');
+const sequelize = require('./config/db_init');
 
 /*
   Routes use
@@ -83,6 +84,8 @@ app.get('/', (req, res) => {
 });
 
 // Server start listening
-app.listen(port, () => {
+app.listen(port, async () => {
+  // Synchronizes db tables
+  await sequelize.sync();
   console.log(`Example app listening on port ${port}`);
 });

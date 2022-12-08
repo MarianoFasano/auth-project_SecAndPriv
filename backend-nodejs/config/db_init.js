@@ -3,6 +3,8 @@ require('dotenv').config();
 
 // Import 'sequelize' module
 const Sequelize = require('sequelize');
+// Mysql
+const mysql = require('mysql2');
 
 /*
  * Sequelize DB connection

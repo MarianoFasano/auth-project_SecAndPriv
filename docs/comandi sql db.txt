@@ -5,9 +5,10 @@ USE authProject;
 CREATE USER 'authProject_user'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON authProject.* TO 'authProject_user'@'localhost';
 
-attenzione: come si legge anche nel diario di bordo, con la creazione di un utente in questo 
+!!!! attenzione: come si legge anche nel diario di bordo, con la creazione di un utente in questo 
 modo il tipo di autenticazione non permette a Sequelize di collegarsi con il db e quindi l'utente
-è stato creato con l'autenticazione standard e tramite MySQL Workbench.
+è stato creato con l'autenticazione standard e tramite MySQL Workbench !!!!
+Nome utente: authuser. --> osservare gli appunti del diario di bordo in data 22.11.2022
 
 Verifications table:
 

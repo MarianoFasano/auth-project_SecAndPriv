@@ -1,5 +1,14 @@
 # auth-project_SecAndPriv
 
+# Read the follow information
+
+### npm install ###
+By the command prompt go to the 'frontend' directory/folder and then digit 'npm install' to install all the libraries for the frontend react app.
+Do the same for the backend in order to install all the libraries needed.
+
+Read the 'comandi sql db.txt' for set the mysql database. You propably need 'Mysql workbench'.
+
+
 ### React ###
 # Getting Started with Create React App
 
