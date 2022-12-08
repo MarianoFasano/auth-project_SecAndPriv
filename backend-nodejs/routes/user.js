@@ -61,8 +61,23 @@ router.get('/', authMiddleware, async (req, res) => {
     // Switch case for user role/policy
     switch(user.policy){
         case 'User':
+            // Empty array of subuser
+            const empty_users = [];
             return res.status(200).send({
                 user: user,
+                subusers: empty_users,
+            });
+            break;
+        case 'Admin':
+            /**
+             * Admin can see every other users
+             */
+            // Get all user that has 'user' as policy
+            console.log('I am here: Admin case');
+            const users = await User.findAll({where: {policy: 'User'}});
+            return res.status(200).send({
+                user: user,
+                subusers: users,
             });
             break;
         default:

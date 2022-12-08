@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
@@ -21,6 +22,8 @@ const [email, setEmail] = useState('');
 const [birthday, setBirthday] = useState();
 // User description
 const [description, setDescription] = useState('');
+// Subusers array
+const [subUsers, setSubUsers] = useState([]);
 
 // UseEffect to get the data from backend
 useEffect(() => {
@@ -33,7 +36,8 @@ useEffect(() => {
   .then(response => {
     // Get the user from the response
     const user = response.data.user;
-    //const b_day = user.birthday.toISOString().split('T')[0];
+    // Set subUsers
+    setSubUsers(response.data.subusers);
     /**
      * Set the user data
      */
@@ -44,7 +48,7 @@ useEffect(() => {
     // Email
     setEmail(user.email);
     // Birthday    
-    setBirthday(user.birthday);
+    setBirthday(dateFunction(user.birthday));
     // Description
     setDescription(user.description);
 
@@ -79,7 +83,10 @@ function logout() {
   return (
     <>
       <Card style={{ width: '18rem' }}>
-        <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+        {/**
+         * Image for future
+         * <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+         */}
         <Card.Body>
           <Card.Title>Name</Card.Title>
           <Card.Text>
@@ -104,11 +111,50 @@ function logout() {
           {/**<Card.Link href="#">Modify</Card.Link>*/}
         </Card.Body>
       </Card>
+      {/**
+       * Render the list of subusers if the user is an admin
+       */}
+       {subUsers.length>0 &&
+            <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Birthday</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+
+                {subUsers.map((user) => (
+                  
+                  <tr key={user.email}>
+                    <td>{user.name}</td>
+                    <td>{user.lastName}</td>
+                    <td>{user.email}</td>
+                    <td>{dateFunction(user.birthday)}</td>
+                    <td>{user.description}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+       }
       <Button variant="primary" onClick={logout}>
         Log out
       </Button>
     </>
   );
+}
+
+// Function to extract the date
+const dateFunction = (date) => {
+  // Get user birthday yyyy-mm-dd
+  const userBday = date.split('T')[0];
+  // Birthday MM/DD/YYYY
+  const b_day = userBday.split('-')[1] + '/' + userBday.split('-')[2] + '/' + userBday.split('-')[0];
+  // Return the string
+  return b_day;
 }
 
 export default UserProfile;
