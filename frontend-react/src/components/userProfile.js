@@ -82,7 +82,7 @@ function logout() {
 
   return (
     <>
-      <Card style={{ width: '18rem' }}>
+      <Card >
         {/**
          * Image for future
          * <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
