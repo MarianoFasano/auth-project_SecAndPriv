@@ -1,3 +1,13 @@
+# Quick look
+The aim of this project was to build a basic web security system with the json web token.
+As frontend there is react code and as backend there is Nodejs with Express.
+An User can create an account with a form in which he/she inserts some data (first name, last name, a little description, password, password confirmation, etc...). The form contains also a validator both frontend and backend and a simple google recaptcha ("I'm not a robot"). After that an e-mail is sended to the new user in order to verify the account.
+Now the new user can do his/her login easily and a json webtoken is given to him/her. The token is used to let the user access to certain pages and his/her data. An admin user has furtherer privileges. In this project he/she can also see a list of the other users.
+When an user do the logout the json webtoken is deleted.
+
+The documentation is in italian.
+
+
 # auth-project_SecAndPriv
 
 # Read the follow information
